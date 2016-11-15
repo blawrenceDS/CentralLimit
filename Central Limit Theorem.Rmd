@@ -1,0 +1,65 @@
+---
+title: "Central Limit Theorem"
+author: "Brandon Lawrence"
+date: "November 15, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Central Limit Theorm Visual Proof
+
+
+The Central Limit Theorem states that the sampling distribution of the mean of any independent, random variable will be normal or nearly normal, if the sample size is large enough (<http://stattrek.com/statistics/dictionary.aspx?definition=central%20limit%20theorem>)
+
+To prove this out, we will begin by creating a couple of normal and exponential distributions.
+
+```{r, echo=TRUE}
+#Create a vector with random values on a skewed distribution
+
+normdata1 <- rnorm(10000, mean = 10, sd = 3)
+normdata2 <- rnorm(100000, mean = 10, sd = 3)
+expdata1 <- rexp(10000, rate = 1)
+expdata2 <- rexp(100000, rate = 1)
+
+#Produce histogram to show distribution of data
+
+hist(normdata1)
+hist(normdata2)
+hist(expdata1)
+hist(expdata2)
+```
+
+The Central Limit Theorem means that if we take the means of random samples of these populations, their distribution will be nearly normal. Let's test that by taking 1000 random samples of ten values from the above datasets and plotting their means.
+
+```{r, echo=TRUE}
+#Initialize vectors for mean data
+
+meannormdata1 <- c()
+meannormdata2 <- c()
+meanexpdata1 <- c()
+meanexpdata2 <- c()
+
+#Take 1000 samples of 10 values from skewdata, calculate their averages and
+#assigning them to the mean data vector
+
+for(i in 1:1000){
+  
+  meannormdata1[i] <- c(mean(sample(normdata1,10,replace = FALSE,prob = NULL)))
+  meannormdata2[i] <- c(mean(sample(normdata2,10,replace = FALSE,prob = NULL)))
+  meanexpdata1[i] <- c(mean(sample(expdata1,10,replace = FALSE,prob = NULL)))
+  meanexpdata2[i] <- c(mean(sample(expdata2,10,replace = FALSE,prob = NULL)))
+
+  }
+
+#Produce histogram to show distribution of sample means
+
+hist(meannormdata1)
+hist(meannormdata2)
+hist(meanexpdata1)
+hist(meanexpdata2)
+```
+
+The distribution of the mean data are clearly much closer to normal for all of the datasets, thus visually showing how the Central Limit Theorem works.
